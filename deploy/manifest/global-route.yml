@@ -1,0 +1,14 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: f5-gslb-ship-tracker
+  namespace: ship-tracker-app
+  labels:
+    app.kubernetes.io/name: ship-tracker
+spec:
+  # Added for f5 demonstration
+  host: ship-tracker.www-apps.foxtrot.demo.red-chesterfield.com
+  path: "/"
+  to:
+    kind: Service
+    name: ship-tracker
