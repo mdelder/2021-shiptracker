@@ -1,0 +1,12 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: ship-tracker
+  namespace: ship-tracker-app
+  labels:
+    app.kubernetes.io/name: ship-tracker
+spec:
+  path: "/"
+  to:
+    kind: Service
+    name: ship-tracker

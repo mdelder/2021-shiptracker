@@ -9,6 +9,7 @@ metadata:
     app.kubernetes.io/version: 1.0.0-SNAPSHOT
     app.kubernetes.io/name: ship-tracker
   name: ship-tracker
+  namespace: ship-tracker-app
 spec:
   replicas: 1
   selector:
