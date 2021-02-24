@@ -32,6 +32,21 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
+        - name: QUARKUS_DATASOURCE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: ship-tracker-database-credentials
+              key: QUARKUS_DATASOURCE_USERNAME
+        - name: QUARKUS_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ship-tracker-database-credentials
+              key: QUARKUS_DATASOURCE_PASSWORD
+        - name: QUARKUS_DATASOURCE_JDBC_URL
+          valueFrom:
+            secretKeyRef:
+              name: ship-tracker-database-credentials
+              key: QUARKUS_DATASOURCE_JDBC_URL
         image: sebi2706/ship-tracker:v3
         imagePullPolicy: Always
         name: ship-tracker
