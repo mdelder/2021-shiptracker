@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ship-commander
+  namespace: ship-tracker-app
+  labels:
+    name: ship-commander
+    app.kubernetes.io/name: ship-commander
+spec:
+  type: ExternalName
+  externalName: ship-commander-shipcommander.apps.deepdive.sebi-on-aws.com

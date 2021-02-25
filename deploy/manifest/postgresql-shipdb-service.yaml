@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    template.openshift.io/expose-uri: postgres://{.spec.clusterIP}:{.spec.ports[?(.name=="postgresql")].port}
+  creationTimestamp: "2021-02-24T16:08:14Z"
+  labels:
+    template: postgresql-persistent-template
+    template.openshift.io/template-instance-owner: 017a813a-d255-4d66-bd29-b30f02a7fcf3
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:template.openshift.io/expose-uri: {}
+        f:labels:
+          .: {}
+          f:template: {}
+          f:template.openshift.io/template-instance-owner: {}
+      f:spec:
+        f:ports:
+          .: {}
+          k:{"port":5432,"protocol":"TCP"}:
+            .: {}
+            f:name: {}
+            f:port: {}
+            f:protocol: {}
+            f:targetPort: {}
+        f:selector:
+          .: {}
+          f:name: {}
+        f:sessionAffinity: {}
+        f:type: {}
+    manager: openshift-controller-manager
+    operation: Update
+    time: "2021-02-24T16:08:14Z"
+  name: postgresql-shipdb
+  namespace: ship-tracker-app
+  resourceVersion: "7260216"
+  selfLink: /api/v1/namespaces/ship-tracker-app/services/postgresql-shipdb
+  uid: 530b17bb-f77a-469b-8853-dc15ba017dc7
+spec:
+  clusterIP: 172.30.46.249
+  ports:
+  - name: postgresql
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    name: postgresql-shipdb
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

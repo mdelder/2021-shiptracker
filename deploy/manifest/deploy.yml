@@ -28,6 +28,10 @@ spec:
     spec:
       containers:
       - env:
+        - name: SHIPCOMMANDER_URL
+          value: https://ship-commander-shipcommander.apps.deepdive.sebi-on-aws.com
+        - name: QUARKUS_TLS_TRUST-ALL
+          value: "true"
         - name: KUBERNETES_NAMESPACE
           valueFrom:
             fieldRef:
