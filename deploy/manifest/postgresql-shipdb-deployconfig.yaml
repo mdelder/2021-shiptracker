@@ -2,8 +2,7 @@ apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
   labels:
-    template: postgresql-persistent-template
-    template.openshift.io/template-instance-owner: 017a813a-d255-4d66-bd29-b30f02a7fcf3
+    app.kubernetes.io/name: ship-tracker
   name: postgresql-shipdb
   namespace: ship-tracker-app
 spec:
@@ -29,17 +28,17 @@ spec:
           valueFrom:
             secretKeyRef:
               key: database-user
-              name: postgresql-shipdb
+              name: postgresql-shipdb-credentials
         - name: POSTGRESQL_PASSWORD
           valueFrom:
             secretKeyRef:
               key: database-password
-              name: postgresql-shipdb
+              name: postgresql-shipdb-credentials
         - name: POSTGRESQL_DATABASE
           valueFrom:
             secretKeyRef:
               key: database-name
-              name: postgresql-shipdb
+              name: postgresql-shipdb-credentials
         image: ' '
         imagePullPolicy: IfNotPresent
         livenessProbe:

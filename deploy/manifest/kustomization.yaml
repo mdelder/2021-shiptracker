@@ -1,0 +1,23 @@
+# kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: ship-tracker-app
+generatorOptions:
+  disableNameSuffixHash: true
+secretGenerator:
+- name: postgresql-shipdb-credentials
+  literals:
+    - "database-name=shipdb"
+    - "database-password=CHANGEME"
+    - "database-user=CHANGEME"
+    - "database-connection-url=jdbc:postgresql://postgresql-shipdb/shipdb"
+resources:
+- deploy.yml
+- global-route.yml
+- local-route.yml
+- postgresql-imagestream.yaml
+- postgresql-shipdb-deployconfig.yaml
+- postgresql-shipdb-service.yaml
+- postgres-shipdb-pvc.yaml
+- service.yml
+- ship-commander-service.yaml

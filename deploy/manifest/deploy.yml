@@ -29,9 +29,7 @@ spec:
       containers:
       - env:
         - name: SHIPCOMMANDER_URL
-          value: https://ship-commander-shipcommander.apps.deepdive.sebi-on-aws.com
-        - name: QUARKUS_TLS_TRUST-ALL
-          value: "true"
+          value: http://ship-commander-api
         - name: KUBERNETES_NAMESPACE
           valueFrom:
             fieldRef:
@@ -39,18 +37,18 @@ spec:
         - name: QUARKUS_DATASOURCE_USERNAME
           valueFrom:
             secretKeyRef:
-              name: ship-tracker-database-credentials
-              key: QUARKUS_DATASOURCE_USERNAME
+              name: postgresql-shipdb-credentials
+              key: database-user
         - name: QUARKUS_DATASOURCE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: ship-tracker-database-credentials
-              key: QUARKUS_DATASOURCE_PASSWORD
+              name: postgresql-shipdb-credentials
+              key: database-password
         - name: QUARKUS_DATASOURCE_JDBC_URL
           valueFrom:
             secretKeyRef:
-              name: ship-tracker-database-credentials
-              key: QUARKUS_DATASOURCE_JDBC_URL
+              name: postgresql-shipdb-credentials
+              key: database-connection-url
         image: sebi2706/ship-tracker:v3
         imagePullPolicy: Always
         name: ship-tracker
