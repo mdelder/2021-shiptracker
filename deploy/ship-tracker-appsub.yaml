@@ -1,0 +1,96 @@
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: ship-tracker-app-latest
+  namespace: ship-tracker-app
+  labels:
+    app.kubernetes.io/name: ship-tracker
+  annotations:
+    apps.open-cluster-management.io/github-path: deploy/manifest
+spec:
+  type: GitHub
+  pathname: https://github.com/mdelder/2021-shiptracker.git
+  # secretRef:
+  #   name: github-credentials
+---
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: ship-tracker-app
+  namespace: ship-tracker-app
+spec:
+  componentKinds:
+  - group: apps.open-cluster-management.io
+    kind: Subscription
+  descriptor: {}
+  selector:
+    matchExpressions:
+    - key: app.kubernetes.io/name
+      operator: In
+      values:
+      - ship-tracker
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  annotations:
+    apps.open-cluster-management.io/git-branch: mdelder-updates-1
+    apps.open-cluster-management.io/github-path: deploy/manifest
+  name: ship-tracker-app
+  namespace: ship-tracker-app
+  labels:
+    app.kubernetes.io/name: ship-tracker
+spec:
+  packageOverrides:
+  - packageName: kustomization
+    packageOverrides:
+    - value:
+        namespace: ship-tracker-app
+        generatorOptions:
+          disableNameSuffixHash: true
+        secretGenerator:
+        - name: postgresql-shipdb-credentials
+          literals:
+            - "database-name=shipdb"
+            - "database-password=CHANGEME"
+            - "database-user=CHANGEME"
+            - "database-connection-url=jdbc:postgresql://postgresql-shipdb/shipdb"
+        resources:
+        - deploy.yml
+        - global-route.yml
+        - local-route.yml
+        - postgresql-imagestream.yaml
+        - postgresql-shipdb-deployconfig.yaml
+        - postgresql-shipdb-service.yaml
+        - postgres-shipdb-pvc.yaml
+        - service.yml
+        - ship-commander-service.yaml
+  channel: ship-tracker-app/ship-tracker-app-latest
+  hooksecretref:
+    name: toweraccess
+  placement:
+    placementRef:
+      kind: PlacementRule
+      name: ship-tracker-clusters
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  name: ship-tracker-clusters
+  namespace: ship-tracker-app
+spec:
+  clusterConditions:
+  - status: "True"
+    type: ManagedClusterConditionAvailable
+  clusterSelector:
+    clusterReplicas: 2
+    matchExpressions:
+    - key: region
+      operator: In
+      values:
+      - us-east-1
+      - us-west-1
+      - europe-west3
+    matchLabels:
+      apps.ship-tracker: deployed
