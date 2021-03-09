@@ -29,7 +29,7 @@ spec:
       containers:
       - env:
         - name: SHIPCOMMANDER_URL
-          value: http://ship-commander-api
+          value: http://ship-tracker-shiptracker.apps.nevaro.sebiazure.com/shipments
         - name: KUBERNETES_NAMESPACE
           valueFrom:
             fieldRef:
