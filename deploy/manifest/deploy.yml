@@ -49,7 +49,7 @@ spec:
             secretKeyRef:
               name: postgresql-shipdb-credentials
               key: database-connection-url
-        image: sebi2706/ship-tracker:v3
+        image: sebi2706/ship-tracker:v6
         imagePullPolicy: Always
         name: ship-tracker
         ports:
